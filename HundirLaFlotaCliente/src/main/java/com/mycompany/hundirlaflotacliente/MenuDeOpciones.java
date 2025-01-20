@@ -79,7 +79,14 @@ public class MenuDeOpciones {
 
     private void verPartidasTerminadas() throws IOException {
         String response = cliente.sendMessage("VIEW_FINISHED_GAMES");
-        System.out.println("Respuesta del servidor: " + response);
+        if (response != null && response.startsWith("FINISHED_GAMES")) {
+            String[] lines = response.split("\n");
+            for (int i = 1; i < lines.length; i++) {
+                System.out.println(lines[i]);
+            }
+        } else {
+            System.out.println("Error: " + (response != null ? response : "No response from server"));
+        }
     }
 
     private void verPartidasSinTerminarYDisparar(Scanner scanner) throws IOException {

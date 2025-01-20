@@ -32,6 +32,15 @@ public class PartidaService {
         }
     }
 
+    public List<PartidaEntity> getPartidasTerminadas() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from PartidaEntity where estado = 'TERMINADA'", PartidaEntity.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<PartidaEntity> getAllPartidas() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from PartidaEntity", PartidaEntity.class).list();

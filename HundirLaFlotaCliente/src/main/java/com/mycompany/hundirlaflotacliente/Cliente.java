@@ -31,5 +31,4 @@ public class Cliente {
         out.println(message);
         return in.readLine();
     }
-
 }
