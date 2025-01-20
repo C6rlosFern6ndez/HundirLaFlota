@@ -1,48 +1,45 @@
 package com.mycompany.hundirlaflotaserver;
 
-import com.mycompany.hundirlaflotaserver.service.UsuarioService;
-import com.mycompany.hundirlaflotaserver.service.GameService;
-
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-/**
- *
- * Autor: Carlos Fernandez Gonzalez
- */
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class Main {
     private static final int PORT = 8080;
 
     public static void main(String[] args) {
-        UsuarioService usuarioService = new UsuarioService();
-        GameService gameService = new GameService();
-
+        // Inicializar Hibernate
+        SessionFactory sessionFactory = null;
         try {
-            System.out.println("Usuarios registrados:");
-            usuarioService.getAllUsuarios().forEach(u -> System.out.println(u.getUsername()));
-        } catch (Exception e) {
-            System.err.println("Error during user operations: " + e.getMessage());
-            e.printStackTrace();
-        }
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.cfg.xml");
 
-        // Iniciar el servidor
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            // Añadir clases anotadas
+            configuration.addAnnotatedClass(UsuarioEntity.class);
+            configuration.addAnnotatedClass(PartidaEntity.class);
+            configuration.addAnnotatedClass(TableroEntity.class);
+            configuration.addAnnotatedClass(BarcoEntity.class);
+            configuration.addAnnotatedClass(MovimientoEntity.class);
+
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties()).build();
+
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+            System.out.println("Hibernate inicializado correctamente.");
+
+            // Iniciar el servidor
+            ServidorSocket servidor = new ServidorSocket(PORT);
             System.out.println("Servidor iniciado en el puerto " + PORT);
-            System.out.println("Esperando cliente...");
-            while (true) {
-                try {
-                    Socket clientSocket = serverSocket.accept();
-                    new ClienteHandler(clientSocket, gameService).start();
-                } catch (IOException e) {
-                    System.err.println("Error accepting client connection: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error starting server: " + e.getMessage());
+            servidor.start();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            // Cerrar SessionFactory al finalizar
+            if (sessionFactory != null) {
+                sessionFactory.close();
+            }
         }
     }
 }

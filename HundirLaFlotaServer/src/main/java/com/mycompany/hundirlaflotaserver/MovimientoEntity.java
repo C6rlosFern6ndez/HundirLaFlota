@@ -1,8 +1,8 @@
 package com.mycompany.hundirlaflotaserver;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "Movimientos")
@@ -12,11 +12,11 @@ public class MovimientoEntity implements Serializable {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "partida_id", nullable = false)
+    @JoinColumn(name = "partidaId", nullable = false)
     private PartidaEntity partida;
 
     @ManyToOne
-    @JoinColumn(name = "jugador_id", nullable = false)
+    @JoinColumn(name = "jugadorId", nullable = false)
     private UsuarioEntity jugador;
 
     @Column(nullable = false)
@@ -35,9 +35,8 @@ public class MovimientoEntity implements Serializable {
     @Column(nullable = false)
     private int turno;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date timestamp;
+    private java.sql.Timestamp timestamp;
 
     // Getters y Setters
 
@@ -105,23 +104,12 @@ public class MovimientoEntity implements Serializable {
         this.turno = turno;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-    
-
-    public enum ResultadoMovimiento {
-        AGUA, TOCADO, HUNDIDO
-    }
-
-    @Override
-    public String toString() {
-        return "MovimientoEntity{" + "id=" + id + ", partida=" + partida + ", jugador=" + jugador + ", columna=" + columna + ", fila=" + fila + ", impacto=" + impacto + ", resultado=" + resultado + ", turno=" + turno + ", timestamp=" + timestamp + '}';
-    }
-    
     
 }

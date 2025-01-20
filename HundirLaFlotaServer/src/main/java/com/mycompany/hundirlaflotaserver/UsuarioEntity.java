@@ -2,6 +2,7 @@ package com.mycompany.hundirlaflotaserver;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Usuarios")
@@ -19,7 +20,14 @@ public class UsuarioEntity implements Serializable {
     @Column(nullable = false)
     private boolean conectado;
 
+    @OneToMany(mappedBy = "jugador1", cascade = CascadeType.ALL)
+    private List<PartidaEntity> partidasComoJugador1;
+
+    @OneToMany(mappedBy = "jugador2", cascade = CascadeType.ALL)
+    private List<PartidaEntity> partidasComoJugador2;
+
     // Getters y Setters
+
     public int getId() {
         return id;
     }
@@ -51,12 +59,21 @@ public class UsuarioEntity implements Serializable {
     public void setConectado(boolean conectado) {
         this.conectado = conectado;
     }
-    
-    // To String
-    @Override
-    public String toString() {
-        return "UsuarioEntity{" + "id=" + id + ", username=" + username + ", password=" + password + ", conectado=" + conectado + '}';
+
+    public List<PartidaEntity> getPartidasComoJugador1() {
+        return partidasComoJugador1;
     }
-    
+
+    public void setPartidasComoJugador1(List<PartidaEntity> partidasComoJugador1) {
+        this.partidasComoJugador1 = partidasComoJugador1;
+    }
+
+    public List<PartidaEntity> getPartidasComoJugador2() {
+        return partidasComoJugador2;
+    }
+
+    public void setPartidasComoJugador2(List<PartidaEntity> partidasComoJugador2) {
+        this.partidasComoJugador2 = partidasComoJugador2;
+    }
     
 }

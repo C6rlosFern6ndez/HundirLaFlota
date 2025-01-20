@@ -11,7 +11,7 @@ public class BarcoEntity implements Serializable {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "tablero_id", nullable = false)
+    @JoinColumn(name = "tableroId", nullable = false)
     private TableroEntity tablero;
 
     @Enumerated(EnumType.STRING)
@@ -36,70 +36,61 @@ public class BarcoEntity implements Serializable {
     @Column(nullable = false)
     private boolean hundido;
 
-    // Getters y Setters
+    // Constructor
+    public BarcoEntity(TipoBarco tipo, TableroEntity tablero, char columnaInicio, int filaInicio, char columnaFin, int filaFin) {
+        this.tipo = tipo;
+        this.tablero = tablero;
+        this.columnaInicio = columnaInicio;
+        this.filaInicio = filaInicio;
+        this.columnaFin = columnaFin;
+        this.filaFin = filaFin;
+        this.hundido = false;
 
+        switch (tipo) {
+            case PORTAAVIONES:
+                this.tamano = 5;
+                break;
+            case ACORAZADO:
+                this.tamano = 4;
+                break;
+            case SUBMARINO:
+                this.tamano = 3;
+                break;
+            case DESTRUCTOR:
+                this.tamano = 2;
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de barco no válido");
+        }
+    }
+
+    // Getters y Setters
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public TableroEntity getTablero() {
-        return tablero;
-    }
-
-    public void setTablero(TableroEntity tablero) {
-        this.tablero = tablero;
     }
 
     public TipoBarco getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoBarco tipo) {
-        this.tipo = tipo;
-    }
-
     public int getTamano() {
         return tamano;
-    }
-
-    public void setTamano(int tamano) {
-        this.tamano = tamano;
     }
 
     public char getColumnaInicio() {
         return columnaInicio;
     }
 
-    public void setColumnaInicio(char columnaInicio) {
-        this.columnaInicio = columnaInicio;
-    }
-
     public int getFilaInicio() {
         return filaInicio;
-    }
-
-    public void setFilaInicio(int filaInicio) {
-        this.filaInicio = filaInicio;
     }
 
     public char getColumnaFin() {
         return columnaFin;
     }
 
-    public void setColumnaFin(char columnaFin) {
-        this.columnaFin = columnaFin;
-    }
-
     public int getFilaFin() {
         return filaFin;
-    }
-
-    public void setFilaFin(int filaFin) {
-        this.filaFin = filaFin;
     }
 
     public boolean isHundido() {
@@ -110,7 +101,11 @@ public class BarcoEntity implements Serializable {
         this.hundido = hundido;
     }
 
-    public enum TipoBarco {
-        PORTAAVIONES, ACORAZADO, SUBMARINO, DESTRUCTOR
+    public TableroEntity getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(TableroEntity tablero) {
+        this.tablero = tablero;
     }
 }

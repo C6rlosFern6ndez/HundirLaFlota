@@ -2,6 +2,7 @@ package com.mycompany.hundirlaflotaserver;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Tableros")
@@ -11,15 +12,18 @@ public class TableroEntity implements Serializable {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "partida_id", nullable = false)
+    @JoinColumn(name = "partidaId", nullable = false)
     private PartidaEntity partida;
 
     @ManyToOne
-    @JoinColumn(name = "jugador_id", nullable = false)
+    @JoinColumn(name = "jugadorId", nullable = false)
     private UsuarioEntity jugador;
 
     @Column(nullable = false)
     private String tablero;
+
+    @OneToMany(mappedBy = "tablero", cascade = CascadeType.ALL)
+    private List<BarcoEntity> barcos;
 
     // Getters y Setters
 
@@ -55,11 +59,12 @@ public class TableroEntity implements Serializable {
         this.tablero = tablero;
     }
 
-    @Override
-    public String toString() {
-        return "TableroEntity{" + "id=" + id + ", partida=" + partida + ", jugador=" + jugador + ", tablero=" + tablero + '}';
+    public List<BarcoEntity> getBarcos() {
+        return barcos;
     }
-    
-    
+
+    public void setBarcos(List<BarcoEntity> barcos) {
+        this.barcos = barcos;
+    }
     
 }

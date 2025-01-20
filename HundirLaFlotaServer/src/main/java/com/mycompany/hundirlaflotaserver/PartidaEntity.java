@@ -1,8 +1,9 @@
 package com.mycompany.hundirlaflotaserver;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Partidas")
@@ -12,30 +13,31 @@ public class PartidaEntity implements Serializable {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "jugador1_id", nullable = false)
+    @JoinColumn(name = "jugador1Id", nullable = false)
     private UsuarioEntity jugador1;
 
     @ManyToOne
-    @JoinColumn(name = "jugador2_id", nullable = false)
+    @JoinColumn(name = "jugador2Id", nullable = false)
     private UsuarioEntity jugador2;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoPartida estado;
 
-    @ManyToOne
-    @JoinColumn(name = "ganador_id")
-    private UsuarioEntity ganador;
-
     @Column(nullable = false)
     private int turno;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date fechaInicio;
+    private java.sql.Timestamp fechaInicio;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaFin;
+    @Column
+    private java.sql.Timestamp fechaFin;
+
+    @OneToMany(mappedBy = "partida", cascade = CascadeType.ALL)
+    private List<TableroEntity> tableros;
+
+    @OneToMany(mappedBy = "partida", cascade = CascadeType.ALL)
+    private List<MovimientoEntity> movimientos;
 
     // Getters y Setters
 
@@ -71,14 +73,6 @@ public class PartidaEntity implements Serializable {
         this.estado = estado;
     }
 
-    public UsuarioEntity getGanador() {
-        return ganador;
-    }
-
-    public void setGanador(UsuarioEntity ganador) {
-        this.ganador = ganador;
-    }
-
     public int getTurno() {
         return turno;
     }
@@ -87,31 +81,36 @@ public class PartidaEntity implements Serializable {
         this.turno = turno;
     }
 
-    public Date getFechaInicio() {
+    public Timestamp getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(Timestamp fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public Timestamp getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(Timestamp fechaFin) {
         this.fechaFin = fechaFin;
     }
-    
 
-    public enum EstadoPartida {
-        EN_CURSO, TERMINADA, ABANDONADA
+    public List<TableroEntity> getTableros() {
+        return tableros;
     }
 
-    @Override
-    public String toString() {
-        return "PartidaEntity{" + "id=" + id + ", jugador1=" + jugador1 + ", jugador2=" + jugador2 + ", estado=" + estado + ", ganador=" + ganador + ", turno=" + turno + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + '}';
+    public void setTableros(List<TableroEntity> tableros) {
+        this.tableros = tableros;
     }
-    
+
+    public List<MovimientoEntity> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(List<MovimientoEntity> movimientos) {
+        this.movimientos = movimientos;
+    }
     
 }

@@ -1,0 +1,54 @@
+Vamos a implementar un juego de hundir la flota con java usando sockets, hibernate y la arquitectura cliente-servidor. 
+El programa estara separado en al menos dos proyectos, uno para el servidor y otrro para el cliente.
+Quiero que el codigo este lo ma separado posible, la clase main debe contener la menor cantidad de codigo posible.
+Ejemplo de separacion de responsabilidades:
+- UsuarioEntity
+- MenuDeOpciones
+- OperacionesCRUD
+- etc...
+Al servidor podrán conectarse múltiples clientes. 
+Las partidas deben ser entre dos clientes.
+Los clientes solo se conectarán a un único servidor. 
+Cuando el cliente se conecte al servidor deberá enviarle su usuario y contraseña, en caso de que 
+no exista el servidor le informará y cerrara la conexión. 
+Un mismo usuario solo puede estar conectado una vez al servidor, se debe tratar esta situación. 
+
+Un usuario conectado tendrá varias opciones a elegir por medio de un menu: 
+1. Empezar nueva partida con otro usuario (verá una lista de los clientes a elegir) 
+2. Ver partidas ya terminadas y poder reproducirlas paso a paso. 
+3. Ver resto de partidas sin terminar en la que está y disparar en las que es su turno. 
+4. Ver resto de partidas sin terminar y renunciar en cualquier momento, dando la victoria 
+por abandono a su contrincante. 
+
+El servidor se encarga de la seguridad y lógica de negocio, independientemente de que se tenga 
+que implementar toda o parte de ella también en los clientes. Nótese que puede haber temas 
+de sincronismo en la aplicación. 
+
+Ante  cada  cambio  en  la  situación  de  la  partida,  es  decir,  cada  
+disparo  de  cada  uno  de  los jugadores, el servidor será el encargado de persistir el 
+estado de la partida, de esta forma, en caso de caída del servidor o de los clientes se 
+podría recuperar sin problema el estado. 
+
+El  servidor  solo  tiene  que  enviar  la  información  mínima  y  necesaria  a  los  
+clientes  para  poder jugar la partida. 
+Ejemplo: en ningún caso el servidor enviará a un usuario la información de los barcos del oponente. 
+En caso de que los dos jugadores de una partida estén conectados a la vez y uno de ellos haga 
+un movimiento, este le debe llegar inmediatamente al otro jugador. 
+
+
+Interfaz Gráfica 
+1. Lista de partidas sin terminar en las que el contrincante SÍ está conectado. 
+2. Lista de partidas sin terminar en las que el contrincante NO está conectado y es el turno 
+del usuario hacer movimiento. 
+3. Lista de partidas sin terminar en las que el contrincante NO está conectado y es el turno 
+del contrincante hacer movimiento. 
+Para el punto 1, el usuario verá la lista de partidas de color verde cuando sea su turno y de color 
+rojo cuando sea el turno del contrincante. 
+Para el punto 2, si el usuario dispara esta partida ya no debería estar en esta lista. 
+Para el punto 2 y 3, si en cualquier momento uno de los jugadores de esas partidas se conectan 
+el cliente será informado y se sacará las partidas de esta lista para ponerlas en la lista 1 avisando 
+al jugador de ello con un mensaje por pantalla. 
+Ocurre lo mismo para el punto 1, si alguno de los jugadores de esas partidas se desconecta se 
+avisará al cliente para que lo pase a la lista 2 o 3. 
+Se deberán poder colocar los barcos de forma gráfica. 
+Se deberá poder disparar en una casilla de forma gráfica
