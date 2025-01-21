@@ -7,8 +7,8 @@ DELETE FROM Partidas;
 DELETE FROM Usuarios;
 
 -- Insertar usuarios
-INSERT INTO Usuarios (username, password, conectado) VALUES ('user1', 'password1', TRUE);
-INSERT INTO Usuarios (username, password, conectado) VALUES ('user2', 'password2', FALSE);
+INSERT INTO Usuarios (username, password, conectado) VALUES ('carlos', '1234', FALSE);
+INSERT INTO Usuarios (username, password, conectado) VALUES ('antonio', '1234', FALSE);
 
 -- Insertar partidas
 INSERT INTO Partidas (jugador1Id, jugador2Id, estado, turno) VALUES (1, 2, 'EN_CURSO', 1);

@@ -11,7 +11,7 @@ public class UsuarioEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -20,11 +20,11 @@ public class UsuarioEntity implements Serializable {
     @Column(nullable = false)
     private boolean conectado;
 
-    @OneToMany(mappedBy = "jugador1", cascade = CascadeType.ALL)
-    private List<PartidaEntity> partidasComoJugador1;
+    // @OneToMany(mappedBy = "jugador1", cascade = CascadeType.ALL)
+    // private List<PartidaEntity> partidasComoJugador1;
 
-    @OneToMany(mappedBy = "jugador2", cascade = CascadeType.ALL)
-    private List<PartidaEntity> partidasComoJugador2;
+    // @OneToMany(mappedBy = "jugador2", cascade = CascadeType.ALL)
+    // private List<PartidaEntity> partidasComoJugador2;
 
     // Getters y Setters
 
@@ -60,20 +60,20 @@ public class UsuarioEntity implements Serializable {
         this.conectado = conectado;
     }
 
-    public List<PartidaEntity> getPartidasComoJugador1() {
-        return partidasComoJugador1;
-    }
+    // public List<PartidaEntity> getPartidasComoJugador1() {
+    //     return partidasComoJugador1;
+    // }
 
-    public void setPartidasComoJugador1(List<PartidaEntity> partidasComoJugador1) {
-        this.partidasComoJugador1 = partidasComoJugador1;
-    }
+    // public void setPartidasComoJugador1(List<PartidaEntity> partidasComoJugador1) {
+    //     this.partidasComoJugador1 = partidasComoJugador1;
+    // }
 
-    public List<PartidaEntity> getPartidasComoJugador2() {
-        return partidasComoJugador2;
-    }
+    // public List<PartidaEntity> getPartidasComoJugador2() {
+    //     return partidasComoJugador2;
+    // }
 
-    public void setPartidasComoJugador2(List<PartidaEntity> partidasComoJugador2) {
-        this.partidasComoJugador2 = partidasComoJugador2;
-    }
+    // public void setPartidasComoJugador2(List<PartidaEntity> partidasComoJugador2) {
+    //     this.partidasComoJugador2 = partidasComoJugador2;
+    // }
     
 }

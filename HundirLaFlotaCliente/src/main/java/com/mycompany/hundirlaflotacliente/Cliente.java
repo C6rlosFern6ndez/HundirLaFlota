@@ -7,8 +7,8 @@ public class Cliente {
     private String host;
     private int port;
     private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
+    private BufferedReader reader;
+    private PrintWriter writer;
 
     public Cliente(String host, int port) {
         this.host = host;
@@ -17,18 +17,18 @@ public class Cliente {
 
     public void connect() throws IOException {
         socket = new Socket(host, port);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
+        reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        writer = new PrintWriter(socket.getOutputStream(), true);
     }
 
     public void disconnect() throws IOException {
-        if (socket != null && !socket.isClosed()) {
-            socket.close();
-        }
+        reader.close();
+        writer.close();
+        socket.close();
     }
 
     public String sendMessage(String message) throws IOException {
-        out.println(message);
-        return in.readLine();
+        writer.println(message);
+        return reader.readLine();
     }
 }

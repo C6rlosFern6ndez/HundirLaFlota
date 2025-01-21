@@ -1,16 +1,22 @@
 package com.mycompany.hundirlaflotaserver;
 
-import java.io.*;
 import java.net.*;
+import java.io.*;
 import java.util.*;
 
 public class ServidorSocket {
     private ServerSocket serverSocket;
     private List<ClienteHandler> clientes;
+    private DatabaseManager dbManager;
 
     public ServidorSocket(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         clientes = new ArrayList<>();
+        dbManager = new DatabaseManager();
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return dbManager;
     }
 
     public void start() {
@@ -23,12 +29,6 @@ public class ServidorSocket {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public synchronized void broadcast(String message) {
-        for (ClienteHandler cliente : clientes) {
-            cliente.sendMessage(message);
         }
     }
 
